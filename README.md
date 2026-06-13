@@ -65,11 +65,16 @@ match bellman_ford(3, &edges, 0) {
 
 This crate is part of SuperInstance's graph algorithm suite. Bellman-Ford handles the general case (negative weights, cycle detection) while graph-dijkstra handles the common case (non-negative weights, faster). The choice between them is a **γ + η = C** trade-off: Bellman-Ford's generality (low γ from fewer constraints on input) costs more computation time (higher η). See [Architecture](https://github.com/SuperInstance/SuperInstance/blob/main/ARCHITECTURE.md).
 
+**Currency arbitrage example**: Given exchange rates as a graph, negative cycles represent arbitrage opportunities. If `USD → EUR → JPY → USD` yields more than you started with, that's a negative-weight cycle when edge weights are `-log(rate)`. Bellman-Ford detects this in O(VE).
+
+**Difference constraints**: Systems of inequalities `x_j - x_i ≤ c` can be solved by constructing a constraint graph where edge `(i, j)` has weight `c`. Shortest paths from a virtual source give a feasible solution. This is used in hardware timing analysis and scheduling.
+
 ## References
 
 - Bellman, R. "On a Routing Problem," Quarterly of Applied Mathematics (1958).
 - Ford, L. & Fulkerson, D. *Flows in Networks*, Princeton UP (1962).
 - Cormen, T. et al. *Introduction to Algorithms*, 4th ed., MIT Press (2022). Ch. 22.
+- Johnson, D. "Efficient Algorithms for Shortest Paths in Sparse Networks," JACM (1977). — Johnson's algorithm uses Bellman-Ford for reweighting.
 
 ## License
 
